@@ -56,7 +56,7 @@ namespace LinqInEntityFramework
                 .Where(c => c.Length > 1)
                 .Select(c =>
                 {
-                    var columns = path.Split(',');
+                    var columns = c.Split(',');
                     return new Car
                     {
                         Year = int.Parse(columns[0]),
