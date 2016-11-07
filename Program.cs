@@ -27,6 +27,42 @@ namespace LinqInEntityFramework
 
         private static void QueryData()
         {
+            var db = new CarDB(); // create a instance of car db
+
+
+
+            db.Database.Log = Console.WriteLine;
+
+            var query = db.Cars.OrderByDescending(c => c.Combined)
+                .ThenBy(c => c.Name)
+                .Select(c => new { c.Name, c.Manufacturer, c.Id })
+
+                .Take(10)
+                ;
+
+            Console.WriteLine(query.Count());
+
+            foreach (var c in query)
+            {
+                Console.WriteLine($"{c.Id,-3} : {c.Name,20} : {c.Manufacturer,30} : ");
+            }
+
+
+            var q = db.Cars.GroupBy(C => C.Manufacturer).Select(g => new
+            {
+                ManuName = g.Key, // intellisence not work
+                Cars = g.OrderByDescending(c => c.Combined).ThenBy(c=>c.Name).Take(2)
+            });
+
+
+            foreach (var grp in q)
+            {
+                Console.WriteLine(grp.ManuName);
+                foreach (var c in grp.Cars)
+                {
+                    Console.WriteLine($"\t{c.Name} : { c.Combined}");
+                }
+            }
 
         }
 
@@ -34,6 +70,8 @@ namespace LinqInEntityFramework
         {
             var cars = ConvertCSV("fuel.csv"); // call to read data in memory
             var db = new CarDB();
+
+            //db.Database.Log = Console.WriteLine;
 
             if (!db.Cars.Any())
             {
