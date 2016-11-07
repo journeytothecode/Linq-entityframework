@@ -10,7 +10,10 @@ namespace LinqInEntityFramework
     public class CarDB : DbContext
     {
         // class represent database for Entity framework to access
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
         public DbSet<Car> Cars { get; set; } // a table name Cars this use for Linq
 
     }
